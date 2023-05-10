@@ -23,7 +23,9 @@ demographicsData = df[1:index-1,:]
 function find_var(df,var)
     for i in CartesianIndices(Matrix(df))
         if typeof(df[i]) <: AbstractString && occursin(var, df[i])
-            return (i)
+            i = i[2]+1 ###??????
+            out = df[i]
+            return (out)
         end
     end
 end
