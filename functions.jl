@@ -5,7 +5,7 @@ function import_excel_files(dir)
     dfs = []
     for excelFile in excelFiles
         xlsheet = readxlsheet(dir*excelFile,1)
-        df = DataFrame(xlsheet,:auto)
+        df = Matrix(xlsheet)
         push!(dfs, df)
     end
     

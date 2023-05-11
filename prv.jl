@@ -10,26 +10,23 @@ dfs = import_excel_files(dataPath)
 
 df = dfs[1]
 
-firstColumn = names(df)[1]
-nameCol = string.(df[:,firstColumn])
+nameCol = string.(df[:,1])
 
 nameCol = replace.(nameCol, r"\s+" => "")
 
-index = findfirst(x -> x == "TIME",namecol)
+index = findfirst(x -> x == "TIME",nameCol)
 
 demographicsData = df[1:index-1,:]
 
 
 function find_var(df,var)
-    for i in CartesianIndices(Matrix(df))
+    for i in CartesianIndices(df)
         if typeof(df[i]) <: AbstractString && occursin(var, df[i])
-            i = i[2]+1 ###??????
+            i = CartesianIndex(i[1],i[2]+1)
             out = df[i]
             return (out)
         end
     end
 end
 
-nameIdx = find_var(demographicsData,"Name")
-
-name = demographicsData[nameIdx]
+name = find_var(demographicsData,"Name")
