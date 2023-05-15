@@ -14,19 +14,21 @@ nameCol = string.(df[:,1])
 
 nameCol = replace.(nameCol, r"\s+" => "")
 
-index = findfirst(x -> x == "TIME",nameCol)
+idxTime = findfirst(x -> x == "TIME",nameCol)
 
-demographicsData = df[1:index-1,:]
+idxEvents = findfirst(x -> x == "Events",nameCol)
 
+demographicsData = df[1:idxTime-1,:]
+eventsData = df[idxEvents:end,:]
 
-function find_var(df,var)
-    for i in CartesianIndices(df)
-        if typeof(df[i]) <: AbstractString && occursin(var, df[i])
-            i = CartesianIndex(i[1],i[2]+1)
-            out = df[i]
-            return (out)
-        end
-    end
-end
-
-name = find_var(demographicsData,"Name")
+name = find_var(demographicsData,"name")
+age = find_var(demographicsData,"age")
+sex = find_var(demographicsData,"sex")
+bodyMass = find_var(demographicsData,"weight")
+device = find_var(demographicsData,"device")
+barometricPressure = find_var(demographicsData,"^(?=.*baro)(?=.*press).*")
+temperature = find_var(demographicsData,"^(?=.*insp)(?=.*temp).*")
+relativeHumidity = find_var(demographicsData,"^(?=.*insp)(?=.*hum).*")
+startWarmUp = find_var(eventsData,"^(?=.*warm)(?=.*up).*")
+startExercise = find_var(eventsData,"^(?=.*start)(?=.*exercise).*")
+endExercise = find_var(eventsData,"^(?=.*cool)(?=.*down).*")
