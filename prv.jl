@@ -15,12 +15,19 @@ nameCol = string.(df[:,1])
 
 nameCol = replace.(nameCol, r"\s+" => "")
 
-idxTime = findfirst(x -> x == "TIME",nameCol)
+idxTime = findfirst(x -> x == "TIME" ,nameCol)
 
-idxEvents = findfirst(x -> x == "Events",nameCol)
+idxEvents = findfirst(x -> x == "Events",nameCol[idxTime:end])
+
 
 demographicsData = df[1:idxTime-1,:]
 eventsData = df[idxEvents:end,:]
+idxEnd = findfirst(x -> x == 1, ismissing.(df[idxTime:end,1]) )
+
+df = df[idxTime:idxEnd-1,:]
+
+
+df1 = DataFrame(df,:auto)
 
 name = find_var(demographicsData,"name")
 age = find_var(demographicsData,"age")
