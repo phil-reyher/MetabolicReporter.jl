@@ -1,5 +1,6 @@
 using(ExcelReaders)
 using(DataFrames)
+using(DataValues)
 
 include("functions.jl")
 

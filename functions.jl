@@ -4,8 +4,7 @@ function import_excel_files(dir)
     excelFiles = filter(file -> endswith(file,".xls"), files)
     dfs = []
     for excelFile in excelFiles
-        xlsheet = readxlsheet(dir*excelFile,1)
-        df = Matrix(xlsheet)
+        df = readxlsheet(dir*excelFile,1)
         for i in CartesianIndices(df)
             if isa(df[i],DataValue{Union{}})
                 df[i] = missing
